@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>VICUNHA · Calculadora Neps / 0.09 m</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #d9d2b0 0%, #c2b280 100%);
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+      padding: 1.2rem;
+      min-height: 100vh;
+    }
+
+    .calculator-card {
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      background: #fef9e8;
+      border-radius: 1.6rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+    }
+
+    .brand-header {
+      background: #1f2a2e;
+      padding: 1rem 1.6rem;
+      border-bottom: 4px solid #c5a059;
+    }
+
+    .brand-header h1 {
+      color: #f7eac5;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .vicunha {
+      font-family: 'Times New Roman', serif;
+      font-weight: 900;
+      font-size: 2rem;
+      letter-spacing: 1px;
+    }
+
+    .jeans {
+      background: #c5a059;
+      color: #1f2a2e;
+      padding: 0.25rem 0.8rem;
+      border-radius: 40px;
+      font-weight: 700;
+    }
+
+    .sub {
+      font-size: 0.9rem;
+      color: #cfd8c5;
+      margin-top: 0.4rem;
+    }
+
+    .content {
+      padding: 1.5rem;
+    }
+
+    .formula-box {
+      background: #ebdfc3;
+      border-left: 8px solid #b8860b;
+      border-radius: 1.2rem;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.4rem;
+      color: #3b2f1c;
+    }
+
+    .formula-box strong {
+      color: #1f2a2e;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto auto;
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      font-weight: 700;
+      color: #2c3e2f;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    input {
+      width: 100%;
+      background: #fff;
+      border: 2px solid #cfc29c;
+      border-radius: 50px;
+      padding: 0.85rem 1rem;
+      font-size: 1.1rem;
+      outline: none;
+      font-weight: 600;
+    }
+
+    input:focus {
+      border-color: #b8860b;
+      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.18);
+    }
+
+    .preview-result {
+      background: #fff7df;
+      border: 2px dashed #c5a059;
+      border-radius: 50px;
+      padding: 0.85rem 1rem;
+      font-size: 1.1rem;
+      font-weight: 800;
+      text-align: center;
+      color: #2f4125;
+      min-height: 52px;
+    }
+
+    button {
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      padding: 0.85rem 1rem;
+      font-weight: 800;
+      transition: 0.15s;
+      white-space: nowrap;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .primary {
+      background: #c5a059;
+      color: #1f2a2e;
+    }
+
+    .secondary {
+      background: #e2d5b6;
+      color: #3b2f1c;
+    }
+
+    .danger {
+      background: #b94d4d;
+      color: #fff;
+    }
+
+    .green {
+      background: #2f6b45;
+      color: #fff;
+    }
+
+    .table-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 1.2rem;
+      border: 1px solid #d6c394;
+      background: #fffdf4;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    thead {
+      background: #1f2a2e;
+      color: #f7eac5;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      text-align: center;
+      border-bottom: 1px solid #e4d8ba;
+    }
+
+    th {
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #fbf2da;
+    }
+
+    tbody tr:hover {
+      background: #f3e4bd;
+    }
+
+    .cell-input {
+      border-radius: 12px;
+      padding: 0.55rem;
+      font-size: 1rem;
+      text-align: center;
+      border: 1px solid #cfc29c;
+      background: #fff;
+    }
+
+    .mts-value {
+      font-weight: 900;
+      color: #1f2a2e;
+      font-family: 'Courier New', monospace;
+      font-size: 1.1rem;
+    }
+
+    .summary {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .summary-card {
+      background: #ebdfc3;
+      border-radius: 1rem;
+      padding: 1rem;
+      text-align: center;
+      border-left: 5px solid #b8860b;
+    }
+
+    .summary-card span {
+      display: block;
+      font-size: 0.8rem;
+      color: #6b4c2c;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .summary-card strong {
+      font-size: 1.4rem;
+      color: #1f2a2e;
+    }
+
+    .small-info {
+      margin-top: 1rem;
+      text-align: center;
+      color: #7a6648;
+      font-size: 0.85rem;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+
+      .form-grid,
+      .table-actions,
+      .danger,
+      .delete-btn {
+        display: none !important;
+      }
+
+      .calculator-card {
+        box-shadow: none;
+        border-radius: 0;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .summary {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .summary {
+        grid-template-columns: 1fr;
+      }
+
+      .vicunha {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="calculator-card">
+
+  <div class="brand-header">
+    <h1>
+      <span class="vicunha">VICUNHA</span>
+      <span class="jeans">jeansidentity</span>
+    </h1>
+    <div class="sub">Calculadora de Neps dividido para 0.09 metros</div>
+  </div>
+
+  <div class="content">
+
+    <div class="formula-box">
+      📌 Fórmula utilizada:
+      <strong>Metros calculados = Neps ÷ 0.09</strong>
+      <br>
+      Ejemplo: <strong>51 ÷ 0.09 = 566.667</strong>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="telarInput">Número de Telar</label>
+        <input type="text" id="telarInput" placeholder="Ej: 102">
+      </div>
+
+      <div class="form-group">
+        <label for="nepsInput">Cantidad de Neps</label>
+        <input type="number" id="nepsInput" placeholder="Ej: 53" step="any">
+      </div>
+
+      <div class="form-group">
+        <label>Resultado automático</label>
+        <div class="preview-result" id="previewResult">0</div>
+      </div>
+
+      <button class="primary" id="addBtn">➕ Agregar</button>
+      <button class="secondary" id="clearInputsBtn">Limpiar</button>
+    </div>
+
+    <div class="table-actions">
+      <button class="secondary" id="restoreBtn">⟳ Restaurar tabla de la imagen</button>
+      <button class="green" id="exportBtn">📥 Exportar CSV</button>
+      <button class="secondary" id="copyBtn">📋 Copiar tabla</button>
+      <button class="secondary" id="printBtn">🖨️ Imprimir</button>
+      <button class="danger" id="clearTableBtn">🗑️ Vaciar tabla</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Telar</th>
+            <th>Neps</th>
+            <th>Mts calculados<br><small>Neps ÷ 0.09</small></th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <div class="summary">
+      <div class="summary-card">
+        <span>Total registros</span>
+        <strong id="totalRows">0</strong>
+      </div>
+
+      <div class="summary-card">
+        <span>Total neps</span>
+        <strong id="totalNeps">0</strong>
+      </div>
+
+      <div class="summary-card">
+        <span>Total mts</span>
+        <strong id="totalMts">0</strong>
+      </div>
+
+      <div class="summary-card">
+        <span>Promedio mts</span>
+        <strong id="avgMts">0</strong>
+      </div>
+    </div>
+
+    <div class="small-info">
+      * El resultado se calcula automáticamente cada vez que se ingresa o modifica el valor de Neps.
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const TEST_LENGTH_M = 0.09;
+
+  /*
+    Si quieres mostrar sin decimales como en la imagen, deja DECIMALES = 0.
+    Si quieres resultado exacto, cambia a 3.
+    Ejemplo:
+    const DECIMALES = 3;
+  */
+  const DECIMALES = 0;
+
+  const INITIAL_DATA = [
+    { telar: "4",   neps: 51 },
+    { telar: "102", neps: 53 },
+    { telar: "103", neps: 48 },
+    { telar: "108", neps: 52 },
+    { telar: "109", neps: 70 },
+    { telar: "208", neps: 64 },
+    { telar: "401", neps: 52 },
+    { telar: "406", neps: 58 },
+    { telar: "505", neps: 38 },
+    { telar: "509", neps: 48 },
+    { telar: "601", neps: 39 },
+    { telar: "608", neps: 48 },
+    { telar: "712", neps: 50 },
+    { telar: "912", neps: 40 },
+    { telar: "110", neps: 52 },
+    { telar: "410", neps: 39 }
+  ];
+
+  let records = [];
+
+  const telarInput = document.getElementById("telarInput");
+  const nepsInput = document.getElementById("nepsInput");
+  const previewResult = document.getElementById("previewResult");
+  const tableBody = document.getElementById("tableBody");
+
+  const addBtn = document.getElementById("addBtn");
+  const clearInputsBtn = document.getElementById("clearInputsBtn");
+  const restoreBtn = document.getElementById("restoreBtn");
+  const exportBtn = document.getElementById("exportBtn");
+  const copyBtn = document.getElementById("copyBtn");
+  const printBtn = document.getElementById("printBtn");
+  const clearTableBtn = document.getElementById("clearTableBtn");
+
+  const totalRows = document.getElementById("totalRows");
+  const totalNeps = document.getElementById("totalNeps");
+  const totalMts = document.getElementById("totalMts");
+  const avgMts = document.getElementById("avgMts");
+
+  function calculateMts(neps) {
+    const value = parseFloat(neps);
+
+    if (isNaN(value)) {
+      return 0;
+    }
+
+    return value / TEST_LENGTH_M;
+  }
+
+  function formatNumber(value) {
+    if (DECIMALES === 0) {
+      return Math.round(value).toString();
+    }
+
+    return value.toFixed(DECIMALES);
+  }
+
+  function updatePreview() {
+    const neps = nepsInput.value;
+
+    if (neps === "") {
+      previewResult.textContent = "0";
+      return;
+    }
+
+    const mts = calculateMts(neps);
+    previewResult.textContent = formatNumber(mts);
+  }
+
+  function saveData() {
+    localStorage.setItem("vicunha_neps_records", JSON.stringify(records));
+  }
+
+  function loadData() {
+    const saved = localStorage.getItem("vicunha_neps_records");
+
+    if (saved) {
+      records = JSON.parse(saved);
+    } else {
+      records = [...INITIAL_DATA];
+    }
+  }
+
+  function renderTable() {
+    tableBody.innerHTML = "";
+
+    records.forEach((item, index) => {
+      const mts = calculateMts(item.neps);
+
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>${index + 1}</td>
+
+        <td>
+          <input 
+            class="cell-input"
+            type="text"
+            value="${item.telar}"
+            data-index="${index}"
+            data-field="telar"
+          >
+        </td>
+
+        <td>
+          <input 
+            class="cell-input"
+            type="number"
+            step="any"
+            value="${item.neps}"
+            data-index="${index}"
+            data-field="neps"
+          >
+        </td>
+
+        <td class="mts-value">
+          ${formatNumber(mts)}
+        </td>
+
+        <td>
+          <button class="danger delete-btn" data-index="${index}">
+            Eliminar
+          </button>
+        </td>
+      `;
+
+      tableBody.appendChild(tr);
+    });
+
+    updateSummary();
+  }
+
+  function updateSummary() {
+    let sumNeps = 0;
+    let sumMts = 0;
+
+    records.forEach(item => {
+      const neps = parseFloat(item.neps) || 0;
+      const mts = calculateMts(neps);
+
+      sumNeps += neps;
+      sumMts += mts;
+    });
+
+    const promedio = records.length > 0 ? sumMts / records.length : 0;
+
+    totalRows.textContent = records.length;
+    totalNeps.textContent = formatNumber(sumNeps);
+    totalMts.textContent = formatNumber(sumMts);
+    avgMts.textContent = formatNumber(promedio);
+  }
+
+  function addRecord() {
+    const telar = telarInput.value.trim();
+    const neps = nepsInput.value.trim();
+
+    if (telar === "") {
+      alert("Ingrese el número de telar.");
+      telarInput.focus();
+      return;
+    }
+
+    if (neps === "" || isNaN(parseFloat(neps))) {
+      alert("Ingrese una cantidad válida de neps.");
+      nepsInput.focus();
+      return;
+    }
+
+    records.push({
+      telar: telar,
+      neps: parseFloat(neps)
+    });
+
+    saveData();
+    renderTable();
+
+    telarInput.value = "";
+    nepsInput.value = "";
+    previewResult.textContent = "0";
+    telarInput.focus();
+  }
+
+  function clearInputs() {
+    telarInput.value = "";
+    nepsInput.value = "";
+    previewResult.textContent = "0";
+    telarInput.focus();
+  }
+
+  function restoreInitialTable() {
+    if (confirm("¿Desea restaurar la tabla original de la imagen?")) {
+      records = [...INITIAL_DATA];
+      saveData();
+      renderTable();
+    }
+  }
+
+  function clearTable() {
+    if (confirm("¿Seguro que desea vaciar toda la tabla?")) {
+      records = [];
+      saveData();
+      renderTable();
+    }
+  }
+
+  function exportCSV() {
+    let csv = "Nro,Telar,Neps,Mts calculados\n";
+
+    records.forEach((item, index) => {
+      const mts = calculateMts(item.neps);
+      csv += `${index + 1},${item.telar},${item.neps},${formatNumber(mts)}\n`;
+    });
+
+    const blob = new Blob(["\uFEFF" + csv], {
+      type: "text/csv;charset=utf-8;"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "tabla_neps_vicunha.csv";
+    link.click();
+
+    URL.revokeObjectURL(url);
+  }
+
+  function copyTable() {
+    let text = "Nro\tTelar\tNeps\tMts calculados\n";
+
+    records.forEach((item, index) => {
+      const mts = calculateMts(item.neps);
+      text += `${index + 1}\t${item.telar}\t${item.neps}\t${formatNumber(mts)}\n`;
+    });
+
+    navigator.clipboard.writeText(text)
+      .then(() => alert("Tabla copiada correctamente."))
+      .catch(() => alert("No se pudo copiar la tabla."));
+  }
+
+  tableBody.addEventListener("input", function(e) {
+    const input = e.target;
+
+    if (!input.dataset.index) return;
+
+    const index = parseInt(input.dataset.index);
+    const field = input.dataset.field;
+
+    if (field === "telar") {
+      records[index].telar = input.value;
+    }
+
+    if (field === "neps") {
+      records[index].neps = parseFloat(input.value) || 0;
+
+      const row = input.closest("tr");
+      const mtsCell = row.querySelector(".mts-value");
+      mtsCell.textContent = formatNumber(calculateMts(records[index].neps));
+    }
+
+    saveData();
+    updateSummary();
+  });
+
+  tableBody.addEventListener("click", function(e) {
+    if (!e.target.classList.contains("delete-btn")) return;
+
+    const index = parseInt(e.target.dataset.index);
+
+    if (confirm("¿Desea eliminar este registro?")) {
+      records.splice(index, 1);
+      saveData();
+      renderTable();
+    }
+  });
+
+  nepsInput.addEventListener("input", updatePreview);
+
+  nepsInput.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      addRecord();
+    }
+  });
+
+  telarInput.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      nepsInput.focus();
+    }
+  });
+
+  addBtn.addEventListener("click", addRecord);
+  clearInputsBtn.addEventListener("click", clearInputs);
+  restoreBtn.addEventListener("click", restoreInitialTable);
+  clearTableBtn.addEventListener("click", clearTable);
+  exportBtn.addEventListener("click", exportCSV);
+  copyBtn.addEventListener("click", copyTable);
+  printBtn.addEventListener("click", () => window.print());
+
+  loadData();
+  renderTable();
+  updatePreview();
+</script>
+
+</body>
+</html>
